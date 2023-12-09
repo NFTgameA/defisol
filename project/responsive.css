@@ -1,0 +1,22 @@
+@media (max-width: 769px) {
+  .content {
+    width: 100%;
+  }
+  .common_current_1UFPC a {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .crakira {
+    display: none;
+  }
+  .common_lists_2aJDD {
+    width: 100%;
+  }
+  .common_lists_2aJDD {
+    /* width: 100% !important; */
+  }
+  .common_listsHome_JOmPP .common_listsItem_3u6_7 {
+    width: 90%;
+  }
+}

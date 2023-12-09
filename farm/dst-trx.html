@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../favicon.png" type="image/png" sizes="96x96">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/plugins.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/animate.min.css">
+  <link rel="stylesheet" href="../assets/css/icofont.css">
+  <link rel="stylesheet" href="../assets/css/flaticon.css">
+  <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/css/slick.min.css">
+  <link rel="stylesheet" href="../assets/css/modal.video.min.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+    rel="stylesheet" />
+  <title>DefiSwap</title>
+</head>
+
+<body data-spy="scroll" data-target=".tm-section-active" class="tm-purple-color">
+  <!-- Start Preloader -->
+  <div id="tm-preloader">
+    <div class="tm-preloader-in">
+      <div class="bar bar-top"></div>
+      <div class="bar bar-right"></div>
+      <div class="bar bar-bottom"></div>
+      <div class="bar bar-left"></div>
+    </div>
+  </div>
+  <!-- End Preloader -->
+  <!-- Start Site Header Wrap -->
+  <header class="tm-site-header">
+    <div class="tm-header-menu">
+      <div class="container tm-header-menu-container">
+        <div class="tm-site-branding">
+          <!-- For Image Logo -->
+          <a href="/" class="tm-logo-link">
+            <img src="../assets/img/logo.png" alt="" class="tm-logo">
+            <img src="../favicon.png" alt="" class="tm-mobile-logo">
+          </a>
+        </div>
+        <nav class="tm-primary-nav tm-section-active">
+          <ul class="tm-primary-nav-list">
+            <li class="menu-item"><a href="/farm/" class="nav-link">Farm</a></li>
+            <li class="menu-item"><a href="/farm/stats" class="nav-link">Stats</a></li>
+            <li class="menu-item"><a href="https://medium.com/@defiswapyfi/defiswap-introdution-the-first-farming-using-tron-acc85040fb4c" class="nav-link">Rules</a></li>
+          </ul>
+        </nav>
+      </div><!-- .tm-header-menu-container -->
+    </div><!-- .tm-header-menu -->
+  </header><!-- .tm-site-header -->
+  <div class="content">
+    <dl class="common_slogan_2pnPD common_layout_sMC4-">
+      <dt>
+        <img src="../favicon.png" />
+        <h1><span>DST</span></h1>
+      </dt>
+      <dd><span>Stake TRX and earn DST</span></dd>
+    </dl>
+    <div class="common_lists_2aJDD common_listsAction_1cvTV">
+      <div class="common_listsItem_3u6_7">
+        <div class="common_item__3sFx">
+          <div class="common_itemHd_1T7dy">
+            <img class="common_iconCircle_3tdIl" src="../favicon.png" />
+            <div id="reward">0.00000000</div>
+          </div>
+          <div class="common_itemBd_3qJTb"><span>DeFiSwap earned</span></div>
+          <div>
+            <div style="height: 60px;"></div>
+            <button id="harvest_bt" class="common_buttonForbid_3ij_K"><span>Harvest</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="common_listsItem_3u6_7">
+        <div class="common_item__3sFx">
+          <div class="common_itemHd_1T7dy">
+            <img class="common_iconCircle_3tdIl" src="../assets/img/tron.png" />
+            <div id="staked">0.00000000</div>
+          </div>
+          <div class="common_itemBd_3qJTb"><span>TRX Staked</span></div>
+          <div>
+            <div style="height: 60px; text-align: center;">
+              <input id="stake_value" style="padding: 8px;border: none;font-size: 18px;border-radius: 10px; width: 95%;"
+                value="0.000" />
+            </div>
+            <button id="stake_bt" class="common_buttonLg_1ulXZ"><span>Stake TRX</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button id="unstake_bt" class="btn-button" style="margin-top: 80px; margin-bottom: 80px;">
+      <span>Abort reward & Unstake</span>
+    </button>
+    <!-- <div style="margin-top: 80px; margin-bottom: 120px;"></div> -->
+    <div class="common_footer_Du4_K common_layout_sMC4-">
+      <a href="https://medium.com/@defiswapyfi" target="_blank">Medium</a><a href="https://twitter.com/trondefiswap"
+        target="_blank">Twitter</a>
+    </div>
+  </div>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"
+    integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ=="
+    crossorigin="anonymous"></script>
+  <script>
+    let tabID = "";
+    let contract_ad = "TTSo751rH93ZsqB31k7eyqafrsgxprrbUa";
+    let address0 = "0x0000000000000000000000000000000000000000";
+    $(document).ready(function () {
+      const harvest_bt = document.querySelector('#harvest_bt');
+      const stake_bt = document.querySelector('#stake_bt');
+      const unstake_bt = document.querySelector('#unstake_bt');
+
+      const default_value = 32000000000;
+      const min_value = 500000000;
+      var send_value = 32000000000;
+      var obj = setInterval(async () => {
+        if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
+          clearInterval(obj);
+          var from_ad = await window.tronWeb.defaultAddress.base58;
+          console.log(from_ad);
+          var tronweb = window.tronWeb;
+          const contract = await tronWeb.contract().at(contract_ad);
+          var staked_value = await contract.stakeOf(from_ad).call();
+          var reward_value = await contract.rewardOf(from_ad).call();
+          var balance_trx = await window.tronWeb.trx.getBalance(from_ad);
+          console.log(balance_trx);
+          if (staked_value > 0) {
+            $("#staked").text((staked_value / 1e6));
+          } else {
+            $("#staked").text((staked_value / 1e6).toFixed(6));
+          }
+          $("#reward").text((reward_value / 1e18).toFixed(6));
+          $("#stake_value").val(balance_trx / 1e6);
+          setInterval(async () => {
+            staked_value = await contract.stakeOf(from_ad).call();
+            reward_value = await contract.rewardOf(from_ad).call();
+            if (staked_value > 0) {
+              $("#staked").text((staked_value / 1e6));
+            } else {
+              $("#staked").text((staked_value / 1e6).toFixed(6));
+            }
+            $("#reward").text((reward_value / 1e18).toFixed(6));
+          }, 12000);
+          stake_bt.addEventListener('click', async () => {
+            try {
+              if ($("#stake_value").val() > 0 && $("#stake_value").val() * 1e6 <= balance_trx) {
+                const result = await contract.stake().send({
+                  callValue: $("#stake_value").val() * 1e6,
+                  shouldPollResponse: false
+                });
+              } else {
+                alert("incorrect balance");
+              }
+            } catch (error) {
+              console.log(error);
+              if (error != "Confirmation declined by user") {
+                alert("Insufficient TRX balance");
+              }
+            }
+          });
+          harvest_bt.addEventListener('click', async () => {
+            try {
+              const result = await contract.harvest().send();
+              $("#reward").text(0.0000);
+            } catch (error) {
+              console.log(error);
+              if (error != "Confirmation declined by user") {
+                alert("Error");
+              }
+            }
+          });
+          unstake_bt.addEventListener('click', async () => {
+            try {
+              const result = await contract.unStake().send();
+              $("#staked").text(0.000000);
+              $("#harvest").text(0.000000);
+            } catch (error) {
+              console.log(error);
+              if (error != "Confirmation declined by user") {
+                alert("Error");
+              }
+            }
+          });
+        }
+
+      }, 100);
+    });
+  </script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>
